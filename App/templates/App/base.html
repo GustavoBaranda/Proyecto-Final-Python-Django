@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>    
+        <title>To-Do-App</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static '/css/style.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav class="navBar">
+                <a href="#index" class="navBranding">
+                    <img src="{% static '/assets/to-do-App-logo.ico' %}" href="/" alt="logo" class="logo">
+                </a>
+                <ul class="navMenu">
+                    <li class="navItem">
+                        <a class="navLink actives" href="/">Home</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="/tasks">Tasks</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="/signin">Signin</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="navItem">
+                            <a class="navLink" href="/logout">Logout</a>
+                        </li>
+                    {% else %}    
+                        <li class="navItem">
+                            <a class="navLink" href="/signup">Signup</a>
+                        </li>
+                    {% endif%}                    
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+        <main class="main">
+            {% block content %}
+
+            {% endblock %}
+        </main>
+        
+        <script src="{% static 'js/navBar.js' %}" type="">></script>
+    </body>
+</html>

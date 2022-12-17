@@ -1,0 +1,16 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+    <section>
+        <h1 class="signup">Signup</h1>
+        {{error}}
+        <form method='POST'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">
+                Signup
+            </button>
+        </form>
+    </section>
+{% endblock %}
+      
