@@ -236,12 +236,8 @@ header a .fab {
   text-align: center;
 }
 
-@media (max-width: 1590px) {
-  .textphrase{
-    padding-right: 12%;
-  }
-  
-}
+
+
 
 @media (max-width: 1024px) {
   .hamburger{
@@ -263,10 +259,10 @@ header a .fab {
   .navMenu{
     position: fixed;
     right: -100%;
-    top: 120px;
+    top: 100px;
     gap: 0;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: #fff;
     width: 100%;
     text-align: center;
     transition: 0.3s;

@@ -3,12 +3,14 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from .forms import TasksForm
+from .models import Tasks
 
 def index(request):                                                 # Vista index para de pagina principal 'home'
     return render(request, 'App/index.html')
 
 def signup(request):                                                # Generamos vista Signup para un formulario de registro de usuarios
-    if request.method == 'GET':                                     # Se consulta tipo de metodo del formulario de registro
+    if request.method == 'GET':                                     # Se consulta tipo peticion
         return render(request, 'App/signup.html', {
             'form' : UserCreationForm
         })
@@ -21,7 +23,7 @@ def signup(request):                                                # Generamos 
                 user.save()                                         # Se guardan los usuarios en DB
                 login(request, user)                                # Usuario logeado   
                 return redirect('tasks')
-            except IntegrityError:                                  # Compruebamos si existe un usuario con el mismo nombre  
+            except IntegrityError:                                  # trabajamos con el error 'IntegrityError' este error 
                 return render(request, 'App/signup.html', {         # Si existe se renderiza vista signup con mensaje de error
                     'form' : UserCreationForm,
                     'error' : 'Username alredy exists'              # Mensaje de error 'usuario existente'
@@ -32,8 +34,30 @@ def signup(request):                                                # Generamos 
         }) 
 
   
-def tasks(request):                                                 # Se genera vista de tareas  
-    return render(request, 'App/tasks.html')
+def tasks(request):
+    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = True) 
+                                                   # Se genera vista de tareas  
+    return render(request, 'App/tasks.html', {
+        'tasks' : tasks
+    })                          # Se genera vista de tareas  
+
+def create_tasks(request):
+    if request.method == 'GET':
+        return render(request, 'App/create_tasks.html', {
+            'form' : TasksForm
+        })
+    else:
+        try:
+            form = TasksForm(request.POST)
+            new_task = form.save(commit = False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'App/create_tasks.html', {
+                'form' : TasksForm,
+                'error' : 'Please provide valida data'
+            })    
 
 
 def signout(request):                                               # Se crea una funcion para deslogearse  
@@ -41,15 +65,15 @@ def signout(request):                                               # Se crea un
     return redirect('index')                                        # Al deslogearse se redirecciona al Index 'Home'    
 
 def signin(request):                                                # Se crea una funcion para logearse y eneramos vista Signin para un formulario 
-    if request.method == 'GET':                                     # Se consulta tipo de metodo del formulario de logeo
+    if request.method == 'GET':                                     # Se consulta tipo de peticion
         return render(request, 'App/signin.html', {    
             'form' : AuthenticationForm
         })
     else:
         user = authenticate(                                        # Se guardan datos obtenidos de formulario en variable 'user' 
-            request, username=request.POST['username'], 
-            pasword=request.POST['password'])
-
+            request, username=request.POST['username'],
+            password=request.POST['password'])
+        print(user)
         if user is None:                                            # Se compara datos de registro en variable 'user' con datos de la DB
             return render(request, 'App/signin.html', {             # Si no existe coincidencia en la DB se renderiza vista signin con mensaje de error
                 'form' : AuthenticationForm,            

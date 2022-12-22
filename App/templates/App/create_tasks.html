@@ -2,15 +2,13 @@
 
 {% block content %}
     <section>
-        <h1>Signin</h1>
+        <h1>Create tasks</h1>
         <p>{{error}}</p>
-        
-        <form action="/signin/" method="POST">
+        <form action="/tasks/create/" method="POST">
             {% csrf_token %}
             {{form.as_p}}
-            <button type="submit">Signin</button>
+            <button type="submit">Safe</button>
         </form>
-     
-
-    </section>   
+    </section>
+   
 {% endblock %}

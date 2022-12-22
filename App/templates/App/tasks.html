@@ -3,7 +3,18 @@
 {% block content %}
     <section>
         <h1>Tareas</h1>
-        <h2>hola! {{user}}</h2>
+        <h2>hola {{user}}!</h2>
+
+        {% for t in tasks %}
+            {% if t.important %}
+            <b>{{t.title}}</b>
+            {% else %}
+            <h2>{{t.title}}</h2>
+            {% endif %}
+            <p>{{t.description}}</p>
+            <p>{{t.user.username}}</p>
+        {% endfor %}
+
     </section>
 {% endblock %}   
 
