@@ -4,16 +4,21 @@
     <section>
         <h1>Tareas</h1>
         <h2>hola {{user}}!</h2>
-
-        {% for t in tasks %}
-            {% if t.important %}
-            <b>{{t.title}}</b>
-            {% else %}
-            <h2>{{t.title}}</h2>
-            {% endif %}
-            <p>{{t.description}}</p>
-            <p>{{t.user.username}}</p>
-        {% endfor %}
+        <ul>
+            {% for task in tasks %}
+            <li>
+              <a href="{% url 'tasks_detail' task.id %}">
+                {% if task.important %}
+                <strong>{{task.title}}</strong>
+                {% else %} {{task.id}} {{task.title}} {% endif %}
+                <p>{{task.description}}</p>
+          
+                {{task.datecompleted|date:'M j Y:i'}}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        
 
     </section>
 {% endblock %}   

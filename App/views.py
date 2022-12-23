@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -58,6 +58,28 @@ def create_tasks(request):
                 'form' : TasksForm,
                 'error' : 'Please provide valida data'
             })    
+
+def tasks_detail(request, task_id):
+    if request.method == 'GET':
+        tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+        form = TasksForm( instance = tasks )
+        return render(request, 'App/tasks_detail.html', {
+            'tasks' : tasks, 
+            'form' : form
+        }) 
+    else:
+        try:
+            tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+            form = TasksForm( request.POST, instance = tasks )
+            form.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'App/tasks_detail.html', {
+                'tasks' : tasks,
+                'form' : form,
+                'error' : 'Error updating task'
+            })
+
 
 
 def signout(request):                                               # Se crea una funcion para deslogearse  

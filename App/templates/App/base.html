@@ -21,17 +21,20 @@
                     
                    {% if user.is_authenticated %}
                     <li class="navItem">
-                        <a class="navLink" href="/tasks">Tasks</a>
+                        <a class="navLink" href="/tasks">Tarea</a>
                     </li>
                     <li class="navItem">
-                        <a class="navLink" href="/logout">Logout</a>
+                        <a class="navLink" href="/tasks/create">Nueva tarea</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="/logout">Cierre de sesion</a>
                     </li>
                     {% else %}    
                     <li class="navItem">
-                        <a class="navLink" href="/signup">Sign up</a>
+                        <a class="navLink" href="/signup">Registrarse</a>
                     </li>
                     <li class="navItem">
-                        <a class="navLink" href="/signin">Sign in</a>
+                        <a class="navLink" href="/signin">Iniciar sesion</a>
                     </li>
                     {% endif%}                    
                 </ul>
