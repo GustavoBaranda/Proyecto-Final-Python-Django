@@ -5,6 +5,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TasksForm
 from .models import Tasks
+from django.utils import timezone
+
 
 def index(request):                                                 # Vista index para de pagina principal 'home'
     return render(request, 'App/index.html')
@@ -35,11 +37,18 @@ def signup(request):                                                # Generamos 
 
   
 def tasks(request):
-    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = True) 
+    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = True ) 
                                                    # Se genera vista de tareas  
     return render(request, 'App/tasks.html', {
         'tasks' : tasks
-    })                          # Se genera vista de tareas  
+    })    
+
+def tasks_completed(request):
+    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = False ).order_by( '-datecompleted' ) 
+                                                   # Se genera vista de tareas  
+    return render(request, 'App/tasks.html', {
+        'tasks' : tasks
+    })                            # Se genera vista de tareas  
 
 def create_tasks(request):
     if request.method == 'GET':
@@ -80,7 +89,18 @@ def tasks_detail(request, task_id):
                 'error' : 'Error updating task'
             })
 
+def complete_tasks(request, task_id):
+    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+    if request.method == 'POST':
+        tasks.datecompleted = timezone.now()
+        tasks.save()
+        return redirect('tasks')
 
+def delete_tasks(request, task_id):
+    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+    if request.method == 'POST':
+        tasks.delete()
+        return redirect('tasks')
 
 def signout(request):                                               # Se crea una funcion para deslogearse  
     logout(request)                                                 # Deslogueado de usuario        

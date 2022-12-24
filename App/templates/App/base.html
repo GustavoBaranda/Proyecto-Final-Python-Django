@@ -21,20 +21,23 @@
                     
                    {% if user.is_authenticated %}
                     <li class="navItem">
-                        <a class="navLink" href="/tasks">Tarea</a>
+                        <a class="navLink" href="{% url 'tasks' %}">Tareas Pendientes</a>
                     </li>
                     <li class="navItem">
-                        <a class="navLink" href="/tasks/create">Nueva tarea</a>
+                        <a class="navLink" href="{% url 'tasks_completed' %}">Tareas Completadas</a>
                     </li>
                     <li class="navItem">
-                        <a class="navLink" href="/logout">Cierre de sesion</a>
+                        <a class="navLink" href="{% url 'create_tasks' %}">Nueva Tarea</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="{% url 'logout' %}">Cerrar Sesión</a>
                     </li>
                     {% else %}    
                     <li class="navItem">
-                        <a class="navLink" href="/signup">Registrarse</a>
+                        <a class="navLink" href="{% url 'signup' %}">Registrarse</a>
                     </li>
                     <li class="navItem">
-                        <a class="navLink" href="/signin">Iniciar sesion</a>
+                        <a class="navLink" href="{% url 'signin' %}">Iniciar sesion</a>
                     </li>
                     {% endif%}                    
                 </ul>
