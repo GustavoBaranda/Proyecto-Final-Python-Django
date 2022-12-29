@@ -1,16 +1,26 @@
 {% extends 'App/base.html' %}
 
 {% block content %}
-    <section>
-        <h1>Signin</h1>
-        <p>{{error}}</p>
-        
-        <form action="/signin/" method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button class="btn btn-primary">Signin</button>
-        </form>
-     
-
-    </section>   
+<main class="container main">
+    <div class="row">
+        <section class="col-md-4 offset-md-4">
+            <form action="/signin/" method='POST' class="card card-body">
+                {% csrf_token %}
+                <h1 class="text-center">Iniciar sesión</h1>
+                <p>{{error}}</p>                
+                <div class="mb-3">
+                    <label for="username" class="text-center">Usuario</label>
+                    <input type="text" name="username" class="form-control" id="username"
+                        placeholder="Escriba su usuario">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="text-center">Contraseña</label>
+                    <input type="password" name="password" class="form-control" id="password"
+                        placeholder="Escriba su contraseña">
+                </div>
+                <button class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </section>
+    </div>
+</main>
 {% endblock %}

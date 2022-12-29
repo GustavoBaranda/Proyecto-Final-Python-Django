@@ -6,10 +6,97 @@ from django.db import IntegrityError
 from .forms import TasksForm
 from .models import Tasks
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):                                                 # Vista index para de pagina principal 'home'
     return render(request, 'App/index.html')
+
+@login_required  
+def tasks(request):
+    search_input = request.POST.get('buscar')
+    tasks = Tasks.objects.filter( user = request.user, 
+    datecompleted__isnull = True,  ).order_by('-created') # Se genera vista de tareas  
+    tasks_completed = Tasks.objects.filter( user = request.user, 
+    datecompleted__isnull = True )
+    print(search_input)
+    if search_input:
+        tasks = Tasks.objects.filter( user = request.user, 
+        datecompleted__isnull = True, title__startswith = search_input ).order_by('-created')
+    return render(request, 'App/tasks.html', {
+        'tasks' : tasks,
+        'tasks_completed' : tasks_completed,
+        'count' : tasks.filter( datecompleted__isnull = True ).count(),
+        'search_input' : search_input
+    })    
+
+@login_required
+def tasks_completed(request):
+    search_input = request.POST.get('buscar')
+    tasks = Tasks.objects.filter( user = request.user, 
+    datecompleted__isnull = False ).order_by( '-datecompleted' ) # Se genera vista de tareas  
+    if search_input:
+        tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = False, 
+        title__startswith = search_input ).order_by( '-datecompleted' )
+    return render(request, 'App/tasks.html', {
+        'tasks' : tasks,
+        'count' : tasks.filter( datecompleted__isnull = False ).count()
+        })                            # Se genera vista de tareas  
+
+@login_required
+def create_tasks(request):
+    if request.method == 'GET':
+        return render(request, 'App/create_tasks.html', {
+            'form' : TasksForm
+        })
+    else:
+        try:
+            form = TasksForm(request.POST)
+            new_task = form.save(commit = False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'App/create_tasks.html', {
+                'form' : TasksForm,
+                'error' : 'Please provide valida data'
+            })    
+
+@login_required
+def tasks_detail(request, task_id):
+    if request.method == 'GET':
+        tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+        form = TasksForm( instance = tasks )
+        return render(request, 'App/tasks_detail.html', {
+            'tasks' : tasks, 
+            'form' : form
+        }) 
+    else:
+        try:
+            tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+            form = TasksForm( request.POST, instance = tasks )
+            form.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'App/tasks_detail.html', {
+                'tasks' : tasks,
+                'form' : form,
+                'error' : 'Error updating task'
+            })
+
+@login_required
+def complete_tasks(request, task_id):
+    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+    if request.method == 'POST':
+        tasks.datecompleted = timezone.now()
+        tasks.save()
+        return redirect('tasks')
+@login_required
+def delete_tasks(request, task_id):
+    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
+    if request.method == 'POST':
+        tasks.delete()
+        return redirect('tasks')
 
 def signup(request):                                                # Generamos vista Signup para un formulario de registro de usuarios
     if request.method == 'GET':                                     # Se consulta tipo peticion
@@ -35,77 +122,6 @@ def signup(request):                                                # Generamos 
             'error' : 'password no match'                           # Mensaje de error al no coincidir la contraseña    
         }) 
 
-  
-def tasks(request):
-    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = True ) 
-                                                   # Se genera vista de tareas  
-    return render(request, 'App/tasks.html', {
-        'tasks' : tasks
-    })    
-
-def tasks_completed(request):
-    tasks = Tasks.objects.filter( user = request.user, datecompleted__isnull = False ).order_by( '-datecompleted' ) 
-                                                   # Se genera vista de tareas  
-    return render(request, 'App/tasks.html', {
-        'tasks' : tasks
-    })                            # Se genera vista de tareas  
-
-def create_tasks(request):
-    if request.method == 'GET':
-        return render(request, 'App/create_tasks.html', {
-            'form' : TasksForm
-        })
-    else:
-        try:
-            form = TasksForm(request.POST)
-            new_task = form.save(commit = False)
-            new_task.user = request.user
-            new_task.save()
-            return redirect('tasks')
-        except ValueError:
-            return render(request, 'App/create_tasks.html', {
-                'form' : TasksForm,
-                'error' : 'Please provide valida data'
-            })    
-
-def tasks_detail(request, task_id):
-    if request.method == 'GET':
-        tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
-        form = TasksForm( instance = tasks )
-        return render(request, 'App/tasks_detail.html', {
-            'tasks' : tasks, 
-            'form' : form
-        }) 
-    else:
-        try:
-            tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
-            form = TasksForm( request.POST, instance = tasks )
-            form.save()
-            return redirect('tasks')
-        except ValueError:
-            return render(request, 'App/tasks_detail.html', {
-                'tasks' : tasks,
-                'form' : form,
-                'error' : 'Error updating task'
-            })
-
-def complete_tasks(request, task_id):
-    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
-    if request.method == 'POST':
-        tasks.datecompleted = timezone.now()
-        tasks.save()
-        return redirect('tasks')
-
-def delete_tasks(request, task_id):
-    tasks = get_object_or_404( Tasks, pk=task_id, user = request.user )
-    if request.method == 'POST':
-        tasks.delete()
-        return redirect('tasks')
-
-def signout(request):                                               # Se crea una funcion para deslogearse  
-    logout(request)                                                 # Deslogueado de usuario        
-    return redirect('index')                                        # Al deslogearse se redirecciona al Index 'Home'    
-
 def signin(request):                                                # Se crea una funcion para logearse y eneramos vista Signin para un formulario 
     if request.method == 'GET':                                     # Se consulta tipo de peticion
         return render(request, 'App/signin.html', {    
@@ -124,7 +140,10 @@ def signin(request):                                                # Se crea un
         else:                                                       # Si existe concidencia 
             login(request, user)                                    # Usuario logeado
             return redirect('tasks')                                # Se redirige a vista 'tasks'   
-     
+
+def signout(request):                                               # Se crea una funcion para deslogearse  
+    logout(request)                                                 # Deslogueado de usuario        
+    return redirect('index')                                        # Al deslogearse se redirecciona al Index 'Home'         
       
 
     

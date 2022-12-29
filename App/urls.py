@@ -10,6 +10,7 @@ urlpatterns = [
     path('tasks/<int:task_id>/', tasks_detail, name='tasks_detail'),        # Vista tareas
     path('tasks/<int:task_id>/complete', complete_tasks, name='complete_tasks'),        # Vista tareas
     path('tasks/<int:task_id>/delete', delete_tasks, name='delete_tasks'),        # Vista tareas
+    # path('schedules', schedules, name='schedules'),        # Vista tareas
     path('logout/', signout, name='logout'),                         # cierre de secion
     path('signin/', signin, name='signin'),                          # vista inicio de secion
 ]

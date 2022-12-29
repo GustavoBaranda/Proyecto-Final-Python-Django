@@ -1,16 +1,29 @@
-{% extends 'App/base.html' %}
-
-{% block content %}
-    <section>
-        <h1 class="signup">Signup</h1>
-        {{error}}
-        <form method='POST'>
-            {% csrf_token %}
-            {{form.as_p}}
-            <button class="btn btn-primary">
-                Signup
-            </button>
-        </form>
-    </section>
+{% extends 'App/base.html' %} {% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="POST" class="card card-body">
+                <h1 class="text-center">Creá tu cuenta</h1>
+                <p>{{error}}
+                </p> {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="text-center">Usuario</label>
+                    <input type="text" name="username" class="form-control bg-light border-1 small" id="username"
+                        placeholder="Usuario..." />
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="text-center">Contraseña</label>
+                    <input type="password" name="password1" class="form-control bg-light border-1 small" id="password1"
+                        placeholder="Contraseña..." />
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="text-center">Comfirme su contraseña</label>
+                    <input type="password" name="password2" class="form-control bg-light border-1 small" id="password2"
+                        placeholder="Comfirme su contraseña..." />
+                </div>
+                <button class="btn btn-primary">Registrate</button>
+            </form>
+        </div>
+    </div>
+</main>
 {% endblock %}
-      

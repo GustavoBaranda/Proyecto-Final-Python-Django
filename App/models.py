@@ -11,3 +11,21 @@ class Tasks(models.Model):                                       # Se crea una t
 
     def __str__(self):
         return self.title + ' - by ' + self.user.username        # se retorna titulo de la tarea y usuario que la creo
+
+class List_of_contact(models.Model):
+    contact = models.CharField( max_length = 100 )
+    phone = models.IntegerField()
+    adress = models.CharField( max_length = 100, blank = True )
+    mail = models.CharField( max_length= 100, blank = True )
+    user = models.ForeignKey( User, on_delete = models.CASCADE )
+    
+
+    def __str__(self):
+        return self.contact + ' - by ' + self.user.username
+
+class Profile_User(models.Model):
+    user = models.OneToOneField( User, on_delete = models.CASCADE)
+    image = models.ImageField( default = 'user.png')
+
+    def __str__(self):
+        return f'Perfil de {self.user.username}'        

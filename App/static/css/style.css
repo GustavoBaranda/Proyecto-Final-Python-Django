@@ -40,6 +40,7 @@ body {
   align-items: center;
   padding: 5px 10%;
   width: 100vw;
+  z-index: 100;
 }
 
 .navMenu{
@@ -94,16 +95,11 @@ body {
 }
 
 .main {
-  display: flex;
-  align-items: center;
-  padding-top: 150px;
+ padding-top: 150px;
 }
 
 section {
   margin: 0 auto;
-}
-.singup {
-  text-align: center;
 }
 /*BOTON WHATSAPPS*/
 .btn-wsp {
@@ -239,7 +235,7 @@ header a .fab {
 
 
 
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
   .hamburger{
     display: block;
   }

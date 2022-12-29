@@ -1,25 +1,61 @@
 {% extends 'App/base.html' %}
 
 {% block content %}
-    <section>
-        <h1>Tareas</h1>
-        <h2>hola {{user}}!</h2>
-        <ul>
-            {% for task in tasks %}
-            <li>
-              <a href="{% url 'tasks_detail' task.id %}">
-                {% if task.important %}
-                <strong>{{task.title}}</strong>
-                {% else %} {{task.id}} {{task.title}} {% endif %}
-                <p>{{task.description}}</p>
-          
-                <p>{{task.datecompleted|date:'j-M-Y h:m'}}</p>
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        
-
-    </section>
-{% endblock %}   
-
+<main class="container main">
+  <div class="row">
+    <div class="col-md-6 offset-md-3"> 
+      <div class="card card-body">
+        {% if count == 0 and tasks_completed %}
+          <h1 class="text-center display-4">Tareas Pendientes</h1>
+          <h3>Hola {{user}}!</h3>
+          <h5>Aun no tienes tareas registradas, puedes registrar una en Nueva Tarea!</h5>
+        {% elif search_input %}       
+          <h1 class="text-center display-4">Resultado de la Busqueda</h1>
+          <h2>Hola {{user}}!</h2>
+          <h5>se registra{{ count|pluralize:"ron" }} <i>{{count}}</i> tarea{{ count|pluralize:"s" }} sin completar!</h5>
+        {% elif tasks_completed %}
+          <h1 class="text-center display-4">Tareas Pendientes</h1>
+          <h2>Hola {{user}}!</h2>
+          <h5>Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} sin completar!</h5>
+        {% elif count == 0 and not tasks_completed %}
+          <h1 class="text-center display-4">Tareas Realizadas</h1>
+          <h3>Hola {{user}}!</h3>
+          <h5>Aun no tienes tareas Realizadas!</h5>
+        {% else %}
+          <h1 class="text-center display-4">Tareas Realizadas</h1>
+          <h3>Hola {{user}}!</h3>
+          <h5>Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} completadas!</h5>
+        {% endif %}
+        <form  class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search pt-3 pb-3" method="POST">
+          {% csrf_token %}
+          <div class="input-group">
+              <input type="text" class="form-control bg-light border-1 small" placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
+              <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit"> Buscar</button>
+              </div>
+          </div>
+        </form>
+        <ul class="list-group">
+          {% for task in tasks %}
+          <a class="list-group-item mb-2" href="{% url 'tasks_detail' task.id %}">
+            <header class="d-flex justify-content-between">
+              {% if task.important %}
+              <h5 class="fw-bold text-danger">{{task.title}}</h5>
+              {% else %} 
+              <h5 class="text-warning">{{task.title}}</h5>   
+              {% endif %}
+              <p class="text-primary fw-bold">by- {{task.user.username}}</p>
+            </header>  
+            <p class="text-secondary">{{task.description}}</p>
+            <p class="text-end fs-6 text-muted">Creado: {{task.created | date:'j-M-Y h:m'}}</p>
+            {% if not tasks_completed %}
+            <p class="text-end fs-6 text-muted">Terminada: {{task.datecompleted | date:'j-M-Y h:m'}}</p>
+            {% endif %}
+          </a>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
