@@ -91,6 +91,7 @@ body {
 
 .main {
  padding-top: 150px;
+ min-height: 100vh;
 }
 
 section {
