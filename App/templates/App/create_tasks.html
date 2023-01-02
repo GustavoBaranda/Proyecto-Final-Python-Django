@@ -3,36 +3,32 @@
 {% block content %}
 <main class="container main">
     <div class="row">
-        <div class="col-md-4 offset-md-4"> 
-       
-                
-                <form action="/tasks/create/" method="POST" class="card card-body">
-                    <h1 class="text-center">Nueva Tarea</h1>
-                    <p>{{error}}</p>
-                    {% csrf_token %}
-                    <!-- {{form.as_p}} -->
-                    <div class="mb-3">
-                        <label for="id_title" class="text-center">Titulo:</label>
-                        <input type="text" name="title" class="form-control" id="id_title"
-                            placeholder="Escriba una tarea">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="id_description" class="text-center">Descripcion:</label>
-                        <textarea type="text" name="description" cols="40" rows="10" class="form-control" id="id_description"
-                            placeholder="Escriba una tarea"></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="id_important" class="text-center">Importante:</label>
-                        <input type="checkbox" name="important" class="form-check-input text-center" id="id_important" checked
-                            placeholder="Escriba una tarea">
-                    </div>
-
-                    <button class="btn btn-primary">Guardar</button>
-                </form>
-                
-        </div>
+        <div class="col-md-6 offset-md-3"> 
+            <form action="/tasks/create/" method="POST" class="card card-body">
+                <h1 class="text-center">Nueva Tarea</h1>
+                <p>{{error}}</p>
+                {% csrf_token %}
+                <a class="btn btn-primary mb-2" href="{% url 'tasks' %}">Tareas Pendientes</a>
+                <a class="btn btn-primary mb-2" href="{% url 'tasks_completed' %}">Tareas Realizadas</a>
+                <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
+                <div class="mb-3">
+                    <label for="id_title" class="text-center">Titulo:</label>
+                    <input type="text" name="title" class="form-control" id="id_title"
+                        placeholder="Escriba una tarea">
+                </div>
+                <div class="mb-3">
+                    <label for="id_description" class="text-center">Descripcion:</label>
+                    <textarea type="text" name="description" cols="40" rows="10" class="form-control" id="id_description"
+                        placeholder="Escriba una tarea"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="id_important" class="text-center">Importante:</label>
+                    <input type="checkbox" name="important" class="form-check-input text-center" id="id_important" checked
+                        placeholder="Escriba una tarea">
+                </div>
+                <button class="btn btn-primary">Guardar</button>
+            </form>
+         </div>
     </div>
 </main>   
 {% endblock %}

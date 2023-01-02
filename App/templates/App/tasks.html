@@ -7,24 +7,30 @@
       <div class="card card-body">
         {% if count == 0 and tasks_completed %}
           <h1 class="text-center display-4">Tareas Pendientes</h1>
-          <h3>Hola {{user}}!</h3>
           <h5>Aun no tienes tareas registradas, puedes registrar una en Nueva Tarea!</h5>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks_completed' %}">Tareas Realizadas</a>
+          <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
         {% elif search_input %}       
           <h1 class="text-center display-4">Resultado de la Busqueda</h1>
-          <h2>Hola {{user}}!</h2>
           <h5>se registra{{ count|pluralize:"ron" }} <i>{{count}}</i> tarea{{ count|pluralize:"s" }} sin completar!</h5>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks' %}">Tareas Pendientes</a>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks_completed' %}">Tareas Realizadas</a>
+          <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
         {% elif tasks_completed %}
           <h1 class="text-center display-4">Tareas Pendientes</h1>
-          <h2>Hola {{user}}!</h2>
           <h5>Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} sin completar!</h5>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks_completed' %}">Tareas Realizadas</a>
+          <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
         {% elif count == 0 and not tasks_completed %}
           <h1 class="text-center display-4">Tareas Realizadas</h1>
-          <h3>Hola {{user}}!</h3>
           <h5>Aun no tienes tareas Realizadas!</h5>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks' %}">Tareas Pendientes</a>
+          <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
         {% else %}
           <h1 class="text-center display-4">Tareas Realizadas</h1>
-          <h3>Hola {{user}}!</h3>
           <h5>Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} completadas!</h5>
+          <a class="btn btn-primary mb-2" href="{% url 'tasks' %}">Tareas Pendientes</a>
+          <a class="btn btn-primary mb-2" href="{% url 'create_tasks' %}">Nueva Tarea</a>
         {% endif %}
         <form  class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search pt-3 pb-3" method="POST">
           {% csrf_token %}

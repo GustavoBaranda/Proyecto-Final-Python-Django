@@ -24,25 +24,29 @@
                 </li>
 
                 {% if user.is_authenticated %}
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'tasks' %}">Tareas Pendientes</a>
-                </li>
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'tasks_completed' %}">Tareas Realizadas</a>
-                </li>
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'create_tasks' %}">Nueva Tarea</a>
-                </li>
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'logout' %}">Salir</a>
-                </li>
-                {% else %}
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'signup' %}">Registrate</a>
-                </li>
-                <li class="navItem">
-                    <a class="navLink" href="{% url 'signin' %}">Ingresar</a>
-                </li>
+                    <li class="navItem">
+                        <a class="navLink" href="{% url 'list_of_contact' %}">Agenda</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="{% url 'tasks' %}">Tareas</a>
+                    </li>
+                    <li class="navItem d-inline-block">
+                        <li class="navItem">
+                            <a class="navLink" href="{% url 'logout' %}">Salir</a>
+                        </li>
+                        <a class="navLink" href="{% url 'profile' %}">Hola {{user.username}}!        
+                            <span>
+                                <img src="{{ user.profile_user.image.url }}" style="width: 35px; border-radius: 50%; margin-left: 5px;">
+                            </span>  
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="navItem">
+                        <a class="navLink" href="{% url 'signup' %}">Registrate</a>
+                    </li>
+                    <li class="navItem">
+                        <a class="navLink" href="{% url 'signin' %}">Ingresar</a>
+                    </li>
                 {% endif%}
             </ul>
             <div class="hamburger">

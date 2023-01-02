@@ -1,0 +1,21 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-6 offset-md-3"> 
+            <div class="card card-body">
+                <h1 class="text-center pb-2">Perfil de {{user.username}}</h1> 
+                <img src="{{ profile.profile_user.image.url }}" style="width: 100px; margin: 0 auto; border-radius: 50%;">  
+                <h3>Usuario: {{profile.username}}</h3>
+                <h3>Nombre: {{profile.first_name}}</h3>
+                <h3>Apellido: {{profile.last_name}}</h3>
+                <h3>Correo: {{profile.email}}</h3>   
+                <a href="{% url 'edit_profile' %}" class="btn btn-success mt-2">Modificar Perfil</a>
+                <a href="{% url 'change_password' %}" class="btn btn-warning mt-2">Modificar contraseña</a>
+                <a href="{% url 'alert_message' %}" class="btn btn-danger mt-2">Eliminar Cuenta</a>
+            </div>
+        </div>
+    </div>
+</main> 
+{% endblock %}

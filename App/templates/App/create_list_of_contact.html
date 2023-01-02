@@ -1,0 +1,37 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-6 offset-md-3"> 
+            <form action="/list_of_contact/create/" method="POST" class="card card-body">
+                <h1 class="text-center">Nueva Tarea</h1>
+                <p>{{error}}</p>
+                {% csrf_token %}
+                {{form}}
+                <!-- <div class="mb-3">
+                    <label for="id_name" class="text-center">Nombre:</label>
+                    <input type="text" name="name" class="form-control" id="id_name"
+                        placeholder="Escriba una tarea">
+                </div>
+                <div class="mb-3">
+                    <label for="id_last_name" class="text-center">Apellido:</label>
+                    <input type="text" name="description" class="form-control" id="id_description"
+                        placeholder="Escriba una tarea">
+                </div>
+                <div class="mb-3">
+                    <label for="id_phone" class="text-center">Telefono:</label>
+                    <input type="number" name="phone" class="form-control" id="id_phone" 
+                        placeholder="Escriba una tarea">
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="text-center">Email:</label>
+                    <input type="text" name="email" class="form-control" id="id_email" 
+                        placeholder="Escriba una tarea">
+                </div> -->
+                <button class="btn btn-primary">Guardar</button>
+            </form>
+         </div>
+    </div>
+</main>   
+{% endblock %}

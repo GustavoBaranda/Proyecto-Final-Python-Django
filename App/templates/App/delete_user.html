@@ -1,0 +1,17 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-6 offset-md-3"> 
+            <div class="card card-body">
+                <h1 class="text-center pb-2">{{user.username}}</h1>
+                <h2 class="text-center pb-2">¿Esta seguro de eliminar su cuenta?</h2> 
+                <img src="{{ user.profile_user.image.url }}" class="mt-5" style="width: 100px; margin: 0 auto;">  
+                <a href="{% url 'delete_user' %}" class="btn btn-danger mt-2">Eliminar Cuenta</a>
+                <a href="{% url 'tasks' %}" class="btn btn-primary mt-2">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</main> 
+{% endblock %}

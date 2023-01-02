@@ -47,7 +47,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   padding: 0;
 }
 
@@ -60,6 +60,8 @@ body {
   height: 100px;
   cursor: pointer;
 }
+
+
 
 .navLink {
   transition: 0.7s ease; 
@@ -87,13 +89,6 @@ body {
   background-color: #000;
 }
 
-.actives {
-  border-radius: 5px;
-  background: #a7eae4;
-  transition: all 0.5s ease;
-  font-weight: bold;
-}
-
 .main {
  padding-top: 150px;
 }
@@ -101,123 +96,11 @@ body {
 section {
   margin: 0 auto;
 }
-/*BOTON WHATSAPPS*/
-.btn-wsp {
-  position: fixed;
-  width: 45px;
-  height: 45px;
-  line-height: 60px;
-  bottom: 30px;
-  right: 30px;
-  background: #00BB2D;
-  color: #fff;
-  border-radius: 50%;
-  text-align: center;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);
-  z-index: 100;
+
+span.helptext {
+  display: none !important;
 }
 
-.btn-wsp:hover {
-  color: #00BB2D;
-  background: #fff;
-}
-
-header a .fab {
-  font-size: 35px;
-}
-
-/*FOOTER*/
-.footerContainer {
-  width: 100%;
-  padding: 10px 0;
-  background-color:  #D3D5DB;
-  text-align: center;
-  color: #000;
-}
-
-.footer{
-  display: flex;
-  justify-content: center;
-}
-
-.logoFooterContainer{
-  text-align: center;
-}
-
-.logo-footer{
-  max-width: 400px;
-}
-
-.footerNavigation {
-  display:block;
-}
-
-.footerNavigation ul{
-  list-style-type: none;
-  margin: 0;
- 
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.footerNavigation ul li {
-  width: 100%;
-  padding: 0 15px;
-}
-
-.footerNavigation ul li a {
-  margin-top: 20px;
-  padding: 0;
-  list-style: none;
-  font-size: 24px;
-  line-height: 35px;
-  font-weight: 400;
-  color: #000;
-  opacity: 0.9;
-}
-
-.footerNavigation ul li a:hover {
-  color: #F15953;
-  opacity: 1;
-}
-
-.OurChannels{
-  margin-left: 30px;
-  opacity: 0.9;
-}
-
-.nuestrosCanalesContacto{
-  opacity: 0.9;
-  padding-bottom: 20px;
-}
-
-.OurChannels h2,
-.OurChannelsContact h2{
-  text-align: center;
-  margin: 0;
-  padding: 15PX 0;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 35px;
-}
-
-.redes{
-  list-style-type: none;
-  display: flex; 
-  justify-content: center; 
-  gap: 10px;
-  opacity: 1;
-  margin: 0;
-  padding: 0;
-}
-
-.imgChannels{
-  width: 30px;
-}
-
-.imgChannels:hover{
-  width: 35px;
-}
 
 .footer-copyright{
   margin: 0;

@@ -1,0 +1,26 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-4 offset-md-4"> 
+            <div class="card card-body">
+                <h1 class="text-center pb-2">Contacto</h1> 
+                <img src="{{ contact.image_contact.url }}" style="width: 100px; margin: 0 auto; border-radius: 50%;" class="mt-2 mb-3">
+                <div class="card card-body">  
+                    <h4>Nombre: {{contact.name}}</h4>
+                    <h4>Apellido: {{contact.last_name}}</h4>
+                    <h4>Telefono: {{contact.phone}}</h4>
+                    <h4>Correo: {{contact.email}}</h4>   
+                    <h4>Domicilio: {{ contact.adress }} </h4>
+                    <a href="{% url 'list_of_contact_detail' contact.id %}" class="btn btn-success mt-2">Modificar Contacto</a>
+                    <form action="{% url 'delete_contact' contact.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger w-100 mt-2">Eleminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main> 
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <div class="col-md-4 offset-md-4"> 
+            <form method="POST" class="card card-body" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1 class="text-center pb-2">Modificar Perfil</h1> 
+                <div class="mb-3">
+                    <label for="username" class="text-center">Usuario</label>
+                    {{ u_form.username }}
+                </div>
+                <div class="mb-3">
+                    <label for="first_name" class="text-center">Nombre</label>
+                    {{ u_form.first_name }}
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="text-center">Apellido</label>
+                    {{ u_form.last_name }}
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="text-center">Correo</label>
+                    {{ u_form.email}}
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="text-center">Imagen de Perfil</label>
+                    {{ p_form }}
+                </div> 
+                <button class="btn btn-primary mt-2">Modificar Perfil</button>
+            </form>
+           
+        </div>
+    </div>
+</main> 
+{% endblock %}

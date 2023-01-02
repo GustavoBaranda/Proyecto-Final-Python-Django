@@ -1,0 +1,41 @@
+{% extends 'App/base.html' %}
+
+{% block content %}
+<main class="container main">
+    <div class="row">
+        <section class="col-md-4 offset-md-4">
+           <div class="card card-body">
+            <table class="table caption-top">
+                <h1 class="text-center">Contactos</h1>
+                <form  class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search pt-3 pb-3}" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group p-3">
+                        <input type="text" class="form-control bg-light border-1 small " placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit"> Buscar</button>
+                        </div>
+                    </div>
+                  </form>
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">Imagen</th>
+                    <th class="text-center" scope="col">contacto</th>
+                    <th class="text-center" scope="col">Accion</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for c in contact %}
+                    <tr class="">
+                        <th class="text-center pt-0" scope="row"><img src="{{ c.image_contact.url }}" style="width: 50px;"></th>
+                        <td class="text-center pt-3">{{c.last_name}}, {{c.name}}</td>
+                        <td class="text-center"><a class="btn btn-primary" href="{% url 'contact' c.id %}">Ver</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>            
+        </section>
+    </div>
+</main>
+{% endblock %}
+
