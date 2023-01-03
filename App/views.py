@@ -101,53 +101,52 @@ def delete_tasks(request, task_id):
         tasks.delete()
         return redirect('tasks')
 
-def signup(request):                                                # Generamos vista Signup para un formulario de registro de usuarios
-    if request.method == 'GET':                                     # Se consulta tipo peticion
+def signup(request):                                               
+    if request.method == 'GET':                                    
         return render(request, 'App/signup.html', {
             'form' : UserCreationForm
         })
     else:
-        if request.POST["password1"] == request.POST["password2"]:  #Consultamos si las contraseñas coinciden las contraseñas
-            try:                                                    # Controlamos los posibles errores   
+        if request.POST["password1"] == request.POST["password2"]:  
+            try:                                                    
                 user = User.objects.create_user( username = request.POST["username"],
                     first_name = request.POST["first_name"],
                     last_name = request.POST["last_name"],
                     email = request.POST["email"],
-                    password = request.POST["password1"])             # Se guardan datos de formulario registro en variable 'user' 
-                user.save()                                         # Se guardan los usuarios en DB
-                login(request, user)                                # Usuario logeado   
+                    password = request.POST["password1"])             
+                user.save()                                         
+                login(request, user)                                   
                 return redirect('tasks')
-            except IntegrityError:                                  # trabajamos con el error 'IntegrityError' este error 
-                return render(request, 'App/signup.html', {         # Si existe se renderiza vista signup con mensaje de error
+            except IntegrityError:                                   
+                return render(request, 'App/signup.html', {         
                     'form' : UserCreationForm,
-                    'error' : 'El ususario ya existe'              # Mensaje de error 'usuario existente'
+                    'error' : 'El ususario ya existe'              
                 })
         return render(request, 'App/signup.html', {
             'form' : UserCreationForm,
-            'error' : 'Las contraseñas no coinciden'                           # Mensaje de error al no coincidir la contraseña    
+            'error' : 'Las contraseñas no coinciden'                              
         }) 
 
-def signin(request):                                                # Se crea una funcion para logearse y eneramos vista Signin para un formulario 
-    if request.method == 'GET':                                     # Se consulta tipo de peticion
+def signin(request):                                                 
+    if request.method == 'GET':                                    
         return render(request, 'App/signin.html', {    
             'form' : AuthenticationForm
         })
     else:
-        user = authenticate(                                        # Se guardan datos obtenidos de formulario en variable 'user' 
+        user = authenticate(                                        
             request, username=request.POST['username'],
             password=request.POST['password'])
         print(user)
-        if user is None:                                            # Se compara datos de registro en variable 'user' con datos de la DB
-            return render(request, 'App/signin.html', {             # Si no existe coincidencia en la DB se renderiza vista signin con mensaje de error
-                'form' : AuthenticationForm,            
-                'error' : 'El Usuario o contarseña no coinciden'           # Mensaje de error 'El usuario o la contraseña es incorrecta'
+        if user is None:                                            
+            return render(request, 'App/signin.html', {             
+                'error' : 'El Usuario o contarseña no coinciden'           
             })
-        else:                                                       # Si existe concidencia 
-            login(request, user)                                    # Usuario logeado
-            return redirect('tasks')                                # Se redirige a vista 'tasks'   
+        else:                                                        
+            login(request, user)                                    
+            return redirect('tasks')                                   
 
-def signout(request):                                               # Se crea una funcion para deslogearse  
-    logout(request)                                                 # Deslogueado de usuario        
+def signout(request):                                               
+    logout(request)                                                         
     return redirect('index') 
 
 @login_required    
